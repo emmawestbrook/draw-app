@@ -7,18 +7,3 @@
 .noUnderlineCentered {
   text-decoration: none;
 }
-
-.centered {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.buttonSize {
-  width: 100px;
-  height: 150px;
-  text-align: center;
-  margin: auto;
-  display: block;
-  margin-bottom: 10px;
-}

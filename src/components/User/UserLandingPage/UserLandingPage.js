@@ -29,11 +29,7 @@ class UserLandingPage extends Component {
           erroribus pro id. Intellegat concludaturque an mel, quas dicunt
           persius ei nec. Ei viris affert ocurreret vel. An aliquip deterruisset
           eum, at eos idque blandit commune. Percipit erroribus elaboraret et
-          eam. Eu noster saperet ius, periculis laboramus no his. Eos cu nostro
-          facete dolorum, quod homero te sit. Eam ad ferri quaeque, idque tation
-          ne cum. In eos offendit delectus perpetua, dolor constituto
-          contentiones has cu. Putant deleniti vituperata est in, est mucius
-          aliquam no.
+          eam.
         </p>
         <div>
           <button className='buttonCentered' onClick={this.viewDrawing}>
@@ -48,8 +44,9 @@ class UserLandingPage extends Component {
             Request Materials
           </button>
           <br></br>
+
           <a href='https://www.givemn.org/story/Draw' target='_blank'>
-            <button className='buttonCentered'>Donate to Draw!</button>
+            <button className='noUnderlineCentered'>Donate to Draw!</button>
           </a>
         </div>
       </div>
