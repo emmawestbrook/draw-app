@@ -7,7 +7,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
 import Nav from '../../Nav/Nav';
 import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
@@ -15,17 +14,17 @@ import EmojiNatureIcon from '@material-ui/icons/EmojiNature';
 
 
 class EventAdminDrawings extends Component {
+
     state = {
         heading: 'Drawings',
         showDrawings: "pending",
     };
 
+    //Have to dispatch to get all drawings on component mount
     componentDidMount() {
         this.props.dispatch({ type: 'GET_PENDING_DRAWINGS' });
         this.props.dispatch({ type: 'GET_APPROVED_DRAWINGS' });
         this.props.dispatch({ type: 'GET_DISAPPROVED_DRAWINGS' });
-
-
     }
 
     //handleChange for dropdown menu
@@ -38,15 +37,14 @@ class EventAdminDrawings extends Component {
     }
 
 
-
-
     render() {
         return (
             <div id="drawings-main-container">
                 <Nav />
-                <div id="draw-h1-div"><h1 id="drawings-h1">{this.state.heading} <EmojiNatureIcon/></h1></div>
+                <div id="draw-h1-div"><h1 id="drawings-h1">{this.state.heading} <EmojiNatureIcon /></h1></div>
                 <div className="page">
-                    
+
+                    {/* Dropdown selection to see what drawings are ready for approval */}
                     <div className="centered">
                         <FormControl >
                             <InputLabel id="drawing-dropdown-label">Select to View</InputLabel>
@@ -57,7 +55,7 @@ class EventAdminDrawings extends Component {
                                 onChange={(event) => this.handleChange(event)}
                                 displayEmpty
                                 variant="outlined"
-                                InputLabelProps={{shrink: true}}
+                                InputLabelProps={{ shrink: true }}
                             >
                                 <MenuItem value={"pending"}>Drawings Pending Approval</MenuItem>
                                 <MenuItem value={"approved"}>Approved Drawings</MenuItem>
@@ -66,11 +64,10 @@ class EventAdminDrawings extends Component {
                         </FormControl>
                     </div>
 
-                        <p id="click-p-tag">Click Drawing for More Information</p>
-                    {/* {JSON.stringify(this.props.store.drawing)} */}
+                    <p id="click-p-tag">Click Drawing for More Information</p>
                     <div className="galleryGrid">
                         <ImageList variant="masonry" cols={3} gap={3}>
-
+                            {/* Images conditionally render dependent on selection */}
                             {this.state.showDrawings === "pending" &&
                                 this.props.store.pending.map((drawing) => {
                                     return (<EventAdminDrawingsCard drawing={drawing} />);

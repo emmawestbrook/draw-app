@@ -40,6 +40,7 @@ const theme = createMuiTheme({
 });
 
 class UserDrawingSubmit extends Component {
+  //Local state stores information from form
   state = {
     drawingSubmit: {
       name: null,
@@ -50,6 +51,8 @@ class UserDrawingSubmit extends Component {
       location: null,
     },
   };
+
+  //Dispatch on component mount fetches events for dropdown
   componentDidMount = () => {
     console.log('in componentDidMount');
     this.props.dispatch({
@@ -57,9 +60,9 @@ class UserDrawingSubmit extends Component {
     });
   };
 
+  //Adds info to local state on change of component
   onChange = (event, property) => {
     console.log('payload is', property, event.target.value);
-
     this.setState({
       drawingSubmit: {
         ...this.state.drawingSubmit,
@@ -68,21 +71,28 @@ class UserDrawingSubmit extends Component {
     });
   };
 
+  //Redirect for home icon
   goHome = () => {
     this.props.history.push('/userhome');
   };
 
+  //Although this looks like a lot of code, this function just checks to see that there
+  //is an image in the reducer before submitting. If not, it warns the user to upload one.
+  //It also serves a confirmation dialog before submitting to the database.
   onSubmit = (event) => {
     event.preventDefault();
+    //Check to see that image url is in reducer
     if (
       Object.keys(this.props.store.imageUrlReducer).length == 0 ||
       undefined
     ) {
+      //If not, serves a warning
       Swal.fire(
         'Hold on!',
         'Please upload a picture of your drawing.',
         'warning'
       );
+      //Confirmation dialog if there is a url in reducer
     } else {
       Swal.fire({
         title: 'Are you sure your drawing is ready to submit?',
@@ -109,6 +119,7 @@ class UserDrawingSubmit extends Component {
             showConfirmButton: false,
             timer: 3000,
           });
+          //Redirects after dialog is served
           this.props.history.push('/userhome');
           this.props.dispatch({ type: 'UNSET_IMAGE_URL' });
         }
@@ -116,101 +127,107 @@ class UserDrawingSubmit extends Component {
     }
   };
 
+
   render() {
     return (
       <div id="app-container">
-      <div className='centered'>
-        <MuiThemeProvider theme={theme}>
-          <HomeIcon
-            fontSize='large'
-            style={{ color: '#577590' }}
-            onClick={this.goHome}
-          />
-          <h2 className='title'>Submit Drawing !</h2>
+        <div className='centered'>
+          <MuiThemeProvider theme={theme}>
+            {/* Home icon sends user back to participant home */}
+            <HomeIcon
+              fontSize='large'
+              style={{ color: '#577590' }}
+              onClick={this.goHome}
+            />
+            <h2 className='title'>Submit Drawing !</h2>
 
-          <form onSubmit={this.onSubmit} className='centered'>
-            <h5 className='smallerTitle'>Event</h5>
-            <InputLabel id="event-location">Where is your event?</InputLabel>
-            <Select
-              required
-              style={{ width: 200 }}
-              id="event-location"
-              defaultValue={''}
-              onChange={(event) => this.onChange(event, 'location')}
-            >
-              <MenuItem value='' disabled>
-                Select Event
-              </MenuItem>
-              {this.props.store.eventReducer.map((event) => {
-                return (
-                  <MenuItem key={event.id} value={event.id}>
-                    {event.location}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <div className='centered'>
-              <h5 className='smallerTitle'>Name</h5>
-              <TextField
-                style={{ width: 200 }}
+            {/* Form component  */}
+            <form onSubmit={this.onSubmit} className='centered'>
 
-                type='text'
+              <h5 className='smallerTitle'>Event</h5>
+              <InputLabel id="event-location">Where is your event?</InputLabel>
+              <Select
                 required
-                placeholder='name'
-                onChange={(event) => this.onChange(event, 'name')}
-              ></TextField>
-            </div>
-
-            <div className='centered'>
-              <h5 className='smallerTitle'>Email</h5>
-              <TextField
                 style={{ width: 200 }}
+                id="event-location"
+                defaultValue={''}
+                onChange={(event) => this.onChange(event, 'location')}
+              >
+                <MenuItem value='' disabled>
+                  Select Event
+              </MenuItem>
+                {/* Select dropdown populates with events */}
+                {this.props.store.eventReducer.map((event) => {
+                  return (
+                    <MenuItem key={event.id} value={event.id}>
+                      {event.location}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
 
-                helperText="If you'd like to learn about future Draw events"
-                type='text'
-                placeholder='email'
-                onChange={(event) => this.onChange(event, 'email')}
-              ></TextField>
-            </div>
+              <div className='centered'>
+                <h5 className='smallerTitle'>Name</h5>
+                <TextField
+                  style={{ width: 200 }}
 
-            <div className='centered'>
-              <h5 className='smallerTitle'>Instagram Handle</h5>
-              <TextField
-                style={{ width: 200 }}
+                  type='text'
+                  required
+                  placeholder='name'
+                  onChange={(event) => this.onChange(event, 'name')}
+                ></TextField>
+              </div>
 
-                helperText="We'll credit you if we post your art!"
-                type='text'
-                placeholder='instagram handle'
-                onChange={(event) => this.onChange(event, 'instagram')}
-              ></TextField>
-            </div>
-            <div className='centered'>
-              <h5 className='smallerTitle'>About your drawing</h5>
-              <TextField
-                style={{ width: 200 }}
+              <div className='centered'>
+                <h5 className='smallerTitle'>Email</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  helperText="If you'd like to learn about future Draw events"
+                  type='text'
+                  placeholder='email'
+                  onChange={(event) => this.onChange(event, 'email')}
+                ></TextField>
+              </div>
 
-                multiline={true}
-                helperText='Add whatever background you like!'
-                type='text'
-                placeholder='about'
-                onChange={(event) => this.onChange(event, 'aboutDrawing')}
-              ></TextField>
-            </div>
+              <div className='centered'>
+                <h5 className='smallerTitle'>Instagram Handle</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  helperText="We'll credit you if we post your art!"
+                  type='text'
+                  placeholder='instagram handle'
+                  onChange={(event) => this.onChange(event, 'instagram')}
+                ></TextField>
+              </div>
 
-            <br></br>
-            <div className='centered'>
-              <div className="uploadDiv"><p>click below to upload your drawing!</p></div>
-              <ImageUpload />
-            </div>
-            <div className='submitBtn'>
-              <Button id="landingButton" type='submit' className='buttonCentered'>
-                Submit Drawing!
+              <div className='centered'>
+                <h5 className='smallerTitle'>About your drawing</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  multiline={true}
+                  helperText='Add whatever background you like!'
+                  type='text'
+                  placeholder='about'
+                  onChange={(event) => this.onChange(event, 'aboutDrawing')}
+                ></TextField>
+              </div>
+
+              <br></br>
+              <div className='centered'>
+                <div className="uploadDiv"><p>click below to upload your drawing!</p></div>
+                <ImageUpload />
+              </div>
+
+              <div className='submitBtn'>
+                <Button id="landingButton" type='submit' className='buttonCentered'>
+                  Submit Drawing!
               </Button>
-            </div>
-          </form>
-        </MuiThemeProvider>
-      </div>
-      <Footer/>
+              </div>
+
+            </form>
+          </MuiThemeProvider>
+        </div>
+        <Footer />
       </div>
     );
   }
