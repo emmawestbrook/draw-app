@@ -24,7 +24,6 @@ class UserGallery extends Component {
     this.props.dispatch({
       type: 'FETCH_EVENTS',
     });
-
   };
 
   onChange = (event) => {

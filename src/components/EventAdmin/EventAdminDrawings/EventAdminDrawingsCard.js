@@ -10,18 +10,8 @@ import InfoIcon from '@material-ui/icons/Info';
 
 
 class EventAdminDrawingsCard extends Component {
-    state = {
-        isClicked: true
-    }
 
-    //when image is clicked, state is updated to its current opposite
-    clickText = () => {
-        console.log("showing text");
-        this.setState({
-            isClicked: !this.state.isClicked
-        });
-    }
-
+    //Shows information on click
     infoClick = () => {
         Swal.fire({
             title: `drawing by ${this.props.drawing.name}`,
@@ -31,23 +21,24 @@ class EventAdminDrawingsCard extends Component {
         });
     }
 
+    //Approves image
     onApprove = () => {
-        console.log('approve image with id of ', this.props.drawing.id);
         this.props.dispatch({
             type: 'APPROVE_DRAWING',
             payload: this.props.drawing.id
         });
     }
+
+    //Disapproves image
     onDisapprove = () => {
-        console.log('disapprove image with id of ', this.props.drawing.id);
         this.props.dispatch({
             type: 'DISAPPROVE_DRAWING',
             payload: this.props.drawing.id
         });
     }
 
+    //Sends confirmation dialog when deleting an image
     onDelete = () => {
-        console.log('delete image with id of ', this.props.drawing.id);
         Swal.fire({
             title: 'are you sure you want to delete this drawing?',
             text: "you won't be able to undo this action!",
@@ -83,15 +74,10 @@ class EventAdminDrawingsCard extends Component {
                                     <a href={this.props.drawing.image_url} download> <Button id="drawings-btn" size="small" color="primary">Download</Button> </a></div> :
                                 <Button id="drawings-btn" size="small" color="primary" onClick={this.onApprove}>approve</Button>)
                         }
-
                         <Button id="drawings-btn" size="small" color="primary" onClick={this.onDelete}>Delete</Button>
                     </div>
-
-
                 </ImageListItem>
-
             </div>
-
         );
     }
 }
