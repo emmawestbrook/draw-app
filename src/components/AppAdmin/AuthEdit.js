@@ -12,8 +12,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import EditIcon from '@material-ui/icons/Edit';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import "./AppAdmin.css"
-
+import './AppAdmin.css';
 
 class AuthEdit extends Component {
   state = {
@@ -25,6 +24,7 @@ class AuthEdit extends Component {
   };
 
   updateSpecificEvent = () => {
+    //dispatch to send info to edit specific userr's auth level permissions
     this.props.dispatch({
       type: 'EDIT_USER_AUTH',
       payload: {
@@ -61,8 +61,8 @@ class AuthEdit extends Component {
 
   render() {
     return (
-      <span className="admin-span">
-        <Button variant='outlined' id="app-btn" onClick={this.handleClickOpen}>
+      <span className='admin-span'>
+        <Button variant='outlined' id='app-btn' onClick={this.handleClickOpen}>
           <EditIcon />
         </Button>
         <Dialog

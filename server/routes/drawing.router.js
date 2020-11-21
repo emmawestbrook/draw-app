@@ -26,7 +26,7 @@ router.get('/pending', rejectUnauthenticated, (req, res) => {
     });
 });
 router.get('/approved', (req, res) => {
-    const queryText = `SELECT * FROM "drawings"
+  const queryText = `SELECT * FROM "drawings"
 
     WHERE "approved" IS TRUE;`;
   pool
@@ -71,7 +71,6 @@ router.get('/disapproved', rejectUnauthenticated, (req, res) => {
 });
 
 router.put('/approve/:id', (req, res) => {
-  console.log('req.params.id', req.params.id);
   const queryText = `UPDATE "drawings" 
     SET "approved" = TRUE WHERE "id"=$1;`;
   pool
@@ -118,7 +117,6 @@ router.delete('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log('req.params.id', req.params.id);
   const queryText = `INSERT INTO "drawings" ("name", "email_address", "instagram", "description", "image_url", "location")
   VALUES ($1, $2, $3, $4, $5, $6);`;
   pool

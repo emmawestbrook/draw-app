@@ -9,7 +9,6 @@ const passport = require('./strategies/user.strategy');
 
 // Route includes
 const userRouter = require('./routes/user.router');
-
 const adminRouter = require('./routes/admin.router');
 const drawingRouter = require('./routes/drawing.router');
 const eventRouter = require('./routes/event.router');
@@ -35,7 +34,6 @@ app.use('/api/event', eventRouter);
 app.use('/api/request', requestRouter);
 
 //s3 dropzone uploader image upload route
-app.use('/api/imageUrl', imageRouter);
 app.use(
   '/s3',
   UploaderS3Router({

@@ -8,8 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DeleteIcon from '@material-ui/icons/Delete';
-import "./AppAdmin.css"
-
+import './AppAdmin.css';
 
 class AuthDeleteConfirm extends Component {
   state = {
@@ -17,6 +16,7 @@ class AuthDeleteConfirm extends Component {
   };
 
   confirmDeleteUser = () => {
+    //deletes a specific user by their DB id#
     this.props.dispatch({
       type: 'DELETE_USER',
       url: `/api/admin/${this.props.user.id}`,
@@ -38,8 +38,8 @@ class AuthDeleteConfirm extends Component {
 
   render() {
     return (
-      <span className="admin-span">
-        <Button variant='outlined' id="app-btn" onClick={this.handleClickOpen}>
+      <span className='admin-span'>
+        <Button variant='outlined' id='app-btn' onClick={this.handleClickOpen}>
           <DeleteIcon />
         </Button>
         <Dialog open={this.state.open} onClose={this.handleClose}>

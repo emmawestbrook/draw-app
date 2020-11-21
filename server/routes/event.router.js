@@ -43,7 +43,6 @@ router.get('/completed', rejectUnauthenticated, (req, res) => {
 router.post('/', rejectUnauthenticated, (req, res) => {
   const e = req.body;
   const queryText = `INSERT INTO "events" ("location", "timestamp") VALUES ($1, $2);`;
-  console.log('EVENT POST', req.body);
   if (req.user.auth_level === 'superAdmin' || req.user.auth_level === 'admin') {
     pool
       .query(queryText, [e.location, e.timestamp])
@@ -80,7 +79,6 @@ router.delete('/', rejectUnauthenticated, (req, res) => {
 //edit specific event ID in case of making a mistake
 router.put('/', rejectUnauthenticated, (req, res) => {
   let e = req.body;
-  console.log('EDIT EVENT', req.body);
   const queryText = `UPDATE "events" SET "location"=$1, "timestamp" = $2 WHERE "id" =$3;`;
   if (req.user.auth_level === 'superAdmin' || req.user.auth_level === 'admin') {
     pool

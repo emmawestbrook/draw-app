@@ -13,7 +13,7 @@ function* userFetchAdmin() {
 }
 
 function* userDeleteAdmin(action) {
-  let response = yield axios({
+  yield axios({
     method: 'DELETE',
     url: action.url,
   });
@@ -22,9 +22,7 @@ function* userDeleteAdmin(action) {
   });
 }
 function* userEditAdmin(action) {
-  console.log('PUT request for user auth');
-
-  let response = yield axios({
+  yield axios({
     method: 'PUT',
     url: '/api/admin',
     data: action.payload,

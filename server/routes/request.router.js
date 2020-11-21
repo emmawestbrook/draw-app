@@ -28,7 +28,6 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 
 //get uncompleted requests BY EVENT ID
 router.get('/event/:id', rejectUnauthenticated, (req, res) => {
-  console.log('REQUEST GET EVENT ID REQ PARAMS', req.params);
   const queryText = `SELECT * FROM "requests" WHERE "completed"='FALSE' AND "event_id"=$1`;
   if (req.user.auth_level === 'superAdmin' || req.user.auth_level === 'admin') {
     pool
@@ -87,7 +86,6 @@ router.put('/completed/:id', rejectUnauthenticated, (req, res) => {
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
   let e = req.params;
   const queryText = `DELETE FROM "requests" WHERE "id" = $1`;
-  console.log('DELETE', e.id);
   if (req.user.auth_level === 'superAdmin' || req.user.auth_level === 'admin') {
     pool
       .query(queryText, [e.id])

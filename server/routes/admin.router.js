@@ -6,16 +6,14 @@ const {
 } = require('../modules/authentication-middleware');
 
 //Router to get all users
-router.get('/', (req, res) => {
-  // GET route code here
-
+router.get('/', rejectUnauthenticated, (req, res) => {
+  // GET route for all users to be displayed on admin view
   let queryString = ` SELECT "id","username","auth_level" from "user"
    ORDER BY "id" ASC
    `;
+  //server side auth checking to disallow users with lower perms from using these routes
   if (req.user.auth_level === 'superAdmin') {
     pool.query(queryString).then((result) => {
-      console.log('results from get', result.rows);
-
       res.send(result.rows);
     });
   } else {
@@ -24,8 +22,8 @@ router.get('/', (req, res) => {
 });
 //Delete user at a  specific ID
 router.delete('/:id', rejectUnauthenticated, (req, res) => {
-  // console.log('making a event DELETE request', req.params);
   if (req.user.auth_level === 'superAdmin') {
+    //server side auth checking to disallow users with lower perms from using these routes
     let queryString = `  DELETE FROM "user" WHERE "id" = $1;
    `;
     pool
@@ -43,7 +41,7 @@ router.delete('/:id', rejectUnauthenticated, (req, res) => {
 });
 //Router to change auth levels for users
 router.put('/', rejectUnauthenticated, (req, res) => {
-  // console.log('making a admin.user.auth PUT request', req.body);
+  //server side auth checking to disallow users with lower perms from using these routes
   if (req.user.auth_level === 'superAdmin') {
     let queryString = ` UPDATE "user"
   SET "username" = $1,
@@ -53,12 +51,9 @@ WHERE "id" = $3;
     pool
       .query(queryString, [req.body.username, req.body.auth_level, req.body.id])
       .then((result) => {
-        console.log('results from  auth admin PUT', result);
-
         res.sendStatus(200);
       })
       .catch((error) => {
-        console.log('We have an error in events PUT', error);
         res.sendStatus(500);
       });
   } else {

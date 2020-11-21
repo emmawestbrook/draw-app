@@ -29,12 +29,11 @@ const theme = createMuiTheme({
         textTransform: 'none',
         height: 48,
         padding: '0 30px',
-        "&:hover": {
-          backgroundColor: "#F3722C"
+        '&:hover': {
+          backgroundColor: '#F3722C',
         },
         //boxShadow: '0 3px 3px 2px #577590',
       },
-
     },
   },
 });
@@ -51,15 +50,12 @@ class UserDrawingSubmit extends Component {
     },
   };
   componentDidMount = () => {
-    console.log('in componentDidMount');
     this.props.dispatch({
       type: 'FETCH_EVENTS',
     });
   };
 
   onChange = (event, property) => {
-    console.log('payload is', property, event.target.value);
-
     this.setState({
       drawingSubmit: {
         ...this.state.drawingSubmit,
@@ -118,99 +114,101 @@ class UserDrawingSubmit extends Component {
 
   render() {
     return (
-      <div id="app-container">
-      <div className='centered'>
-        <MuiThemeProvider theme={theme}>
-          <HomeIcon
-            fontSize='large'
-            style={{ color: '#577590' }}
-            onClick={this.goHome}
-          />
-          <h2 className='title'>Submit Drawing !</h2>
+      <div id='app-container'>
+        <div className='centered'>
+          <MuiThemeProvider theme={theme}>
+            <HomeIcon
+              fontSize='large'
+              style={{ color: '#577590' }}
+              onClick={this.goHome}
+            />
+            <h2 className='title'>Submit Drawing !</h2>
 
-          <form onSubmit={this.onSubmit} className='centered'>
-            <h5 className='smallerTitle'>Event</h5>
-            <InputLabel id="event-location">Where is your event?</InputLabel>
-            <Select
-              required
-              style={{ width: 200 }}
-              id="event-location"
-              defaultValue={''}
-              onChange={(event) => this.onChange(event, 'location')}
-            >
-              <MenuItem value='' disabled>
-                Select Event
-              </MenuItem>
-              {this.props.store.eventReducer.map((event) => {
-                return (
-                  <MenuItem key={event.id} value={event.id}>
-                    {event.location}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-            <div className='centered'>
-              <h5 className='smallerTitle'>Name</h5>
-              <TextField
-                style={{ width: 200 }}
-
-                type='text'
+            <form onSubmit={this.onSubmit} className='centered'>
+              <h5 className='smallerTitle'>Event</h5>
+              <InputLabel id='event-location'>Where is your event?</InputLabel>
+              <Select
                 required
-                placeholder='name'
-                onChange={(event) => this.onChange(event, 'name')}
-              ></TextField>
-            </div>
-
-            <div className='centered'>
-              <h5 className='smallerTitle'>Email</h5>
-              <TextField
                 style={{ width: 200 }}
+                id='event-location'
+                defaultValue={''}
+                onChange={(event) => this.onChange(event, 'location')}
+              >
+                <MenuItem value='' disabled>
+                  Select Event
+                </MenuItem>
+                {this.props.store.eventReducer.map((event) => {
+                  return (
+                    <MenuItem key={event.id} value={event.id}>
+                      {event.location}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <div className='centered'>
+                <h5 className='smallerTitle'>Name</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  type='text'
+                  required
+                  placeholder='name'
+                  onChange={(event) => this.onChange(event, 'name')}
+                ></TextField>
+              </div>
 
-                helperText="If you'd like to learn about future Draw events"
-                type='text'
-                placeholder='email'
-                onChange={(event) => this.onChange(event, 'email')}
-              ></TextField>
-            </div>
+              <div className='centered'>
+                <h5 className='smallerTitle'>Email</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  helperText="If you'd like to learn about future Draw events"
+                  type='text'
+                  placeholder='email'
+                  onChange={(event) => this.onChange(event, 'email')}
+                ></TextField>
+              </div>
 
-            <div className='centered'>
-              <h5 className='smallerTitle'>Instagram Handle</h5>
-              <TextField
-                style={{ width: 200 }}
+              <div className='centered'>
+                <h5 className='smallerTitle'>Instagram Handle</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  helperText="We'll credit you if we post your art!"
+                  type='text'
+                  placeholder='instagram handle'
+                  onChange={(event) => this.onChange(event, 'instagram')}
+                ></TextField>
+              </div>
+              <div className='centered'>
+                <h5 className='smallerTitle'>About your drawing</h5>
+                <TextField
+                  style={{ width: 200 }}
+                  multiline={true}
+                  helperText='Add whatever background you like!'
+                  type='text'
+                  placeholder='about'
+                  onChange={(event) => this.onChange(event, 'aboutDrawing')}
+                ></TextField>
+              </div>
 
-                helperText="We'll credit you if we post your art!"
-                type='text'
-                placeholder='instagram handle'
-                onChange={(event) => this.onChange(event, 'instagram')}
-              ></TextField>
-            </div>
-            <div className='centered'>
-              <h5 className='smallerTitle'>About your drawing</h5>
-              <TextField
-                style={{ width: 200 }}
-
-                multiline={true}
-                helperText='Add whatever background you like!'
-                type='text'
-                placeholder='about'
-                onChange={(event) => this.onChange(event, 'aboutDrawing')}
-              ></TextField>
-            </div>
-
-            <br></br>
-            <div className='centered'>
-              <div className="uploadDiv"><p>click below to upload your drawing!</p></div>
-              <ImageUpload />
-            </div>
-            <div className='submitBtn'>
-              <Button id="landingButton" type='submit' className='buttonCentered'>
-                Submit Drawing!
-              </Button>
-            </div>
-          </form>
-        </MuiThemeProvider>
-      </div>
-      <Footer/>
+              <br></br>
+              <div className='centered'>
+                <div className='uploadDiv'>
+                  <p>click below to upload your drawing!</p>
+                </div>
+                <ImageUpload />
+              </div>
+              <div className='submitBtn'>
+                <Button
+                  id='landingButton'
+                  type='submit'
+                  className='buttonCentered'
+                >
+                  Submit Drawing!
+                </Button>
+              </div>
+            </form>
+          </MuiThemeProvider>
+        </div>
+        <Footer />
       </div>
     );
   }

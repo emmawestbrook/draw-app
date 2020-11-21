@@ -17,24 +17,21 @@ class UserGallery extends Component {
   };
 
   componentDidMount = () => {
-    console.log('in componentDidMount');
     this.props.dispatch({
       type: 'GET_APPROVED_DRAWINGS',
     });
     this.props.dispatch({
       type: 'FETCH_EVENTS',
     });
-
   };
 
   onChange = (event) => {
-    console.log('payload is', event.target.value);
     this.props.dispatch({
       type: 'FETCH_APPROVED_EVENT_DRAWINGS',
       url: `/api/drawing/approved/${event.target.value}`,
     });
     this.setState({
-      fetchEventDrawings: true
+      fetchEventDrawings: true,
     });
   };
 
@@ -44,7 +41,7 @@ class UserGallery extends Component {
 
   render() {
     return (
-      <div id="app-container">
+      <div id='app-container'>
         <div className='centered'>
           <HomeIcon
             fontSize='large'
@@ -53,12 +50,10 @@ class UserGallery extends Component {
           />
           <h2 className='title'>Gallery</h2>
           <FormControl>
-
-
-            <InputLabel id="gallery-select">Select Event</InputLabel>
+            <InputLabel id='gallery-select'>Select Event</InputLabel>
             <Select
               required
-              id="gallery-select"
+              id='gallery-select'
               style={{ width: 200 }}
               defaultValue={''}
               onChange={(event) => this.onChange(event)}
@@ -66,7 +61,7 @@ class UserGallery extends Component {
             >
               <MenuItem value='' disabled>
                 Select Event
-          </MenuItem>
+              </MenuItem>
 
               {this.props.store.eventReducer.map((event) => {
                 return (
@@ -78,14 +73,14 @@ class UserGallery extends Component {
             </Select>
           </FormControl>
           <Grid container id='pendingGrid'>
-            <ImageList variant="masonry" cols={2} gap={3}>
-              {this.state.fetchEventDrawings ?
-                this.props.store.eventDrawingByIdReducer.map((drawing) => {
-                  return <UserGalleryCard drawing={drawing} />;
-                }) :
-                this.props.store.approved.map((drawing) => {
-                  return <UserGalleryCard drawing={drawing} />;
-                })}
+            <ImageList variant='masonry' cols={2} gap={3}>
+              {this.state.fetchEventDrawings
+                ? this.props.store.eventDrawingByIdReducer.map((drawing) => {
+                    return <UserGalleryCard drawing={drawing} />;
+                  })
+                : this.props.store.approved.map((drawing) => {
+                    return <UserGalleryCard drawing={drawing} />;
+                  })}
             </ImageList>
           </Grid>
         </div>

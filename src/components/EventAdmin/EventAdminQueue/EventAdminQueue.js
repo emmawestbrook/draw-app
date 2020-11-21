@@ -4,83 +4,80 @@ import mapStoreToProps from '../../../redux/mapStoreToProps';
 import QueueItem from './QueueItem/QueueItem';
 
 import Nav from '../../Nav/Nav';
-import "./EventAdminQueue.css"
+import './EventAdminQueue.css';
 
 //requests queue by event
 
 class EventAdminQueue extends Component {
-
-
   componentDidMount = () => {
     this.props.dispatch({
       type: 'FETCH_BY_EVENT', //grabs only uncompleted requests by event id
-      payload: this.props.match.params.id
+      payload: this.props.match.params.id,
     });
-
   }; //end componentDidMount
 
-
   render() {
-    console.log("QUEUE", this.props.store.queueReducer)
-    if (this.props.store.queueReducer.length > 0 && this.props.store.user.auth_level==="superAdmin" || this.props.store.user.auth_level==="admin") {
+    if (
+      (this.props.store.queueReducer.length > 0 &&
+        this.props.store.user.auth_level === 'superAdmin') ||
+      this.props.store.user.auth_level === 'admin'
+    ) {
       return (
         <div>
           <Nav />
-          <div id="queue-main-container">
-            <div id="white-div">
-          <div id="queue-main">
-            <table id="queue-table">
-              <thead>
-                <tr>
-                  <th>Table Number</th>
-                  <th>Number of Artists</th>
-                  <th>Request Fulfilled</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                {this.props.store.queueReducer.map((item) => (
-                  <QueueItem
-                    key={item.id}
-                    item={item}
-                    eventID={this.props.match.params.id}
-                  />
-
-                ))}
-              </tbody>
-            </table>
+          <div id='queue-main-container'>
+            <div id='white-div'>
+              <div id='queue-main'>
+                <table id='queue-table'>
+                  <thead>
+                    <tr>
+                      <th>Table Number</th>
+                      <th>Number of Artists</th>
+                      <th>Request Fulfilled</th>
+                      <th>Delete</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.props.store.queueReducer.map((item) => (
+                      <QueueItem
+                        key={item.id}
+                        item={item}
+                        eventID={this.props.match.params.id}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
-          </div>
-        </div>
         </div>
       );
-
-    }
-
-    else if (this.props.store.queueReducer.length === 0 && this.props.store.user.auth_level==="superAdmin" || this.props.store.user.auth_level==="admin") {
+    } else if (
+      (this.props.store.queueReducer.length === 0 &&
+        this.props.store.user.auth_level === 'superAdmin') ||
+      this.props.store.user.auth_level === 'admin'
+    ) {
       return (
         <div>
           <Nav />
           <h4>Sorry, there are no requests for this event!</h4>
         </div>
-      )
+      );
+    } else if (
+      this.props.store.user.auth_level !== 'superAdmin' ||
+      this.props.store.user.auth_level !== 'admin'
+    ) {
+      return (
+        <div className='app-unauthorized-container'>
+          <Nav />
+          <div className='unauthorized-h2'>
+            <h2 className='unauthorized-h2'>
+              Sorry! But you are not authorized to be here!
+            </h2>
+          </div>
+        </div>
+      );
     }
-
-
-    else if (this.props.store.user.auth_level !== "superAdmin" || this.props.store.user.auth_level !=="admin"){
-            return (
-                  <div className="app-unauthorized-container">
-                    <Nav />
-                          <div className="unauthorized-h2">
-                              <h2 className="unauthorized-h2">
-                                Sorry! But you are not authorized to be here! 
-                              </h2>
-                          </div>
-                  </div>
-            )
-        }
-
   }
 }
 
